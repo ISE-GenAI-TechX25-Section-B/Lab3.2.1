@@ -26,9 +26,9 @@ class StateInfo:
 PROJECT_ID = "section-b4-project-1"
 RESPONSE_SCHEMA = {
     "type": "array",
-    # TODO: Supply the desired properties.
     "items": {
         "type": "object",
+            # TODO: Supply the desired properties.
             "properties": {
             "a": { "type": "string" },
             "b": { "type": "string" },
