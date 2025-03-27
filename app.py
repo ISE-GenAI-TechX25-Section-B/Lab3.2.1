@@ -13,6 +13,7 @@ from vertexai.generative_models import GenerationConfig, GenerativeModel, Genera
 class StateInfo:
     @staticmethod
     def from_vertex_response(response: GenerationResponse) -> list["StateInfo"]:
+        # TODO: Implement parsing.
         return []
     
     # TODO: Write __init__ function with desired properties.   
