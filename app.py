@@ -6,25 +6,16 @@ from dataclasses import dataclass
 from vertexai.generative_models import GenerationConfig, GenerativeModel, GenerationResponse
 
 
-# # # # # # # #
-# Helper class
-# # # # # # # #
-
+# # # # #
+# Helpers
+# # # # #
 @dataclass
 class StateInfo:
     @staticmethod
     def from_vertex_response(response: GenerationResponse) -> list["StateInfo"]:
-        return parse_response_to_states(response)
-
-    def __init__(self, state_name: str, direction: str, shared_border_length_miles: float):
-        self.state_name = state_name
-        self.direction = direction
-        self.shared_border_length_miles = int(shared_border_length_miles)
-
-
-def parse_response_to_states(response: GenerationResponse) -> list[StateInfo]:
-    parsed = json.loads(response.candidates[0].content.text)
-    return [StateInfo(**state) for state in parsed]
+        return []
+    
+    # TODO: Write __init__ function with desired properties.   
 
 
 # # # # # #
@@ -34,18 +25,13 @@ def parse_response_to_states(response: GenerationResponse) -> list[StateInfo]:
 PROJECT_ID = "section-b4-project-1"
 RESPONSE_SCHEMA = {
     "type": "array",
+    # TODO: Supply the desired properties.
     "items": {
         "type": "object",
-        "properties": {
-            "state_name": {
-                "type": "string"
-            },
-            "direction": {
-                "type": "string"
-            },
-            "shared_border_length_miles": {
-                "type": "number"
-            }
+            "properties": {
+            "a": { "type": "string" },
+            "b": { "type": "string" },
+            "c": { "type": "string" }
         }
     }
 } # Read more @ https://ai.google.dev/gemini-api/docs/structured-output?lang=python
@@ -69,7 +55,7 @@ if users_state:
     model = GenerativeModel("gemini-1.5-flash-002")
 
     response = model.generate_content(
-        f"List the neighboring states of {users_state} along with the cardinal direction of where they are located relative to the state of {users_state}). Additionally, provide the number of miles of shared border between the two in miles.",
+        f"TODO: Prompt the AI",
         generation_config=GenerationConfig(
             response_mime_type="application/json", response_schema=RESPONSE_SCHEMA
         )
@@ -88,9 +74,6 @@ st.write(
 if response:
     states = StateInfo.from_vertex_response(response)
     for state in states:
-        st.write(
-            f'- **{state.state_name}**, located to the *{state.direction}* of {users_state}. '
-            f'They share a border *{state.shared_border_length_miles} miles* long.')
-
+        st.write(f"TODO: Output desired properties")
 
 # End of Section B
