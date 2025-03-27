@@ -13,10 +13,13 @@ from vertexai.generative_models import GenerationConfig, GenerativeModel, Genera
 class StateInfo:
     @staticmethod
     def from_vertex_response(response: GenerationResponse) -> list["StateInfo"]:
-        # TODO: Implement parsing.
-        return []
+        parsed = json.loads(response.candidates[0].content.text)
+        return [StateInfo(**state) for state in parsed]
     
-    # TODO: Write __init__ function with desired properties.   
+    def __init__(self, state_name, population, direction):
+        self.state_name = state_name
+        self.population = population
+        self.direction = direction  
 
 
 # # # # # #
@@ -28,11 +31,10 @@ RESPONSE_SCHEMA = {
     "type": "array",
     "items": {
         "type": "object",
-            # TODO: Supply the desired properties.
             "properties": {
-            "a": { "type": "string" },
-            "b": { "type": "string" },
-            "c": { "type": "string" }
+            "state_name": { "type": "string" },
+            "population": { "type": "string" },
+            "direction": { "type": "string" }
         }
     }
 } # Read more @ https://ai.google.dev/gemini-api/docs/structured-output?lang=python
@@ -56,7 +58,7 @@ if users_state:
     model = GenerativeModel("gemini-1.5-flash-002")
 
     response = model.generate_content(
-        f"TODO: Prompt the AI",
+        f"Given the {users_state}, find all US states that border {users_state}. Provide the name of the state, population of this state, and the direction of that state from {users_state}.",
         generation_config=GenerationConfig(
             response_mime_type="application/json", response_schema=RESPONSE_SCHEMA
         )
@@ -75,6 +77,6 @@ st.write(
 if response:
     states = StateInfo.from_vertex_response(response)
     for state in states:
-        st.write(f"TODO: Output desired properties")
+        st.write(f"**{state.state_name}**: Population = {state.population} and direction = {state.direction}")
 
 # End of Section B
