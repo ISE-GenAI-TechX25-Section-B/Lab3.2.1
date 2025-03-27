@@ -1,8 +1,4 @@
-# TODO: Replace with your team name
-
-## Our Team
-
-TODO: Replace with your team members
+# Fooglers Lab 3.2.1: VertexAI
 
 # Setup
 
